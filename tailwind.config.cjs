@@ -12,8 +12,18 @@ module.exports = {
         lightGray: '#BABABA'
       },
       colors: {
+        darkGray: '#262626',
         lightGray: '#BABABA',
         lightYellow: '#F9C503'
+      },
+      animation: {
+        active: 'active .3s ease-in-out'
+      },
+      keyframes: {
+        active: {
+          from: { transform: 'scale(1)' },
+          to: { transform: 'scale(1.1)' }
+        }
       }
     }
   },
