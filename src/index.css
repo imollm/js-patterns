@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #000;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Phudu', cursive;
+}
+
+.code-snippet, .code-output {
+    position: relative;
+}
+
+.code-snippet .css-1rd69im {
+    position: absolute;
+    right: 30px;
+    top: 66px;
+}
+
+.code-output .css-1rd69im {
+    display: none;
+}
+
+.code-snippet .css-1rd69im ~ pre,
+.code-output .css-1rd69im ~ pre {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
