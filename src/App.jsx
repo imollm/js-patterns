@@ -1,7 +1,11 @@
+import Layout from './components/Layout'
+
 export function App () {
   return (
-    <h1>
-      JS Patterns
-    </h1>
+    <Layout>
+      <h1>
+        JS Patterns
+      </h1>
+    </Layout>
   )
 }
