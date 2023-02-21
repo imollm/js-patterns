@@ -76,19 +76,201 @@ console.log(processManager === processManager2)`,
   },
   {
     name: 'Strategy Pattern ♟️',
-    description: 'The Strategy Pattern is a software design pattern that allows for different algorithms (strategies) to be used interchangeably. It\'s useful when you need to change or dynamically choose from multiple algorithms with the same interface. This pattern makes code extensible, maintainable and easy to read.'
+    description: 'The Strategy Pattern is a software design pattern that allows for different algorithms (strategies) to be used interchangeably. It\'s useful when you need to change or dynamically choose from multiple algorithms with the same interface. This pattern makes code extensible, maintainable and easy to read.',
+    code: `function Fedex() {
+    this.calculate = (package) => {
+        // fedex calculations...
+        return 2.45
+    }
+}
+
+function UPS() {
+    this.calculate = (package) => {
+        // ups calculations...
+        return 1.56
+    }
+}
+
+function USPS() {
+    this.calculate = (package) => {
+        // usps calculations...
+        return 4.5
+    }
+}
+
+function Shipping() {
+    this.company = ''
+    this.setStrategy = (company) => {
+        this.company = company
+    }
+    this.calculate = (package) => {
+        return this.company.calculate(package)
+    }
+}
+
+const fedex = new Fedex()
+const ups = new UPS()
+const usps = new USPS()
+const shipping = new Shipping()
+
+const package = { from: 'Alabama', to: 'Georigia', weight: 1.56 }
+
+shipping.setStrategy(fedex)
+console.log('Fedex: ' + shipping.calculate(package))
+
+shipping.setStrategy(ups)
+console.log('UPS: ' + shipping.calculate(package))
+
+shipping.setStrategy(usps)
+console.log('USPS: ' + shipping.calculate(package))`,
+    output: `'Fedex: 2.45'
+'UPS: 1.56'
+'USPS: 4.5'`,
+    example: 'We are going to implement a functionality that calculates a transport costs depending of the company and its strategy, we have different companies like Fedex, UPS, USPS.'
   },
   {
     name: 'Iterator Pattern 🔄',
-    description: 'The iterator pattern in software development is a design pattern which provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation. It allows for the traversal of a collection of objects in a consistent manner and simplifies the logic involved in looping through different collections. This pattern is heavily used in modern programming languages such as Java and C++.'
+    description: 'The iterator pattern in software development is a design pattern which provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation. It allows for the traversal of a collection of objects in a consistent manner and simplifies the logic involved in looping through different collections. This pattern is heavily used in modern programming languages such as Java and C++.',
+    code: `const items = [
+  new Date().toDateString(),
+  "ivandev",
+  false,
+  1.99,
+  () => { return 'I\'m a function' }
+]
+
+class Iterator {
+  constructor(items) {
+    this.items = items
+    this.index = 0
+  }
+  
+  hasNext = () => {
+    return this.index < this.items.length
+  }
+  
+  next = () => {
+    return this.items[this.index++]
+  }
+}
+
+const iter = new Iterator(items)
+while(iter.hasNext()) {
+  const current = iter.next()
+  console.log(current)
+}`,
+    output: `'Tue Feb 21 2023'
+'ivandev'
+false
+1.99
+ƒ ()`,
+    example: 'We have an array with different kind of data, we have to use the iterator implementation to iterate over the array and show every element.'
   },
   {
     name: 'Observer Pattern 👀',
-    description: 'The Observer Pattern is a design pattern used to enable the objects in the system to have a one-to-many relationship, whereby changes to any object\'s state will be broadcast to all its observer objects.'
+    description: 'The Observer Pattern is a design pattern used to enable the objects in the system to have a one-to-many relationship, whereby changes to any object\'s state will be broadcast to all its observer objects.',
+    code: `class Subject {
+  constructor() {
+    this.observers = []
+  }
+
+  subscribe = (fn) => {
+    this.observers.push(fn)
+  }
+
+  unsubscribe = (fnToRemove) => {
+    this.observers = this.observers.filter(fn => {
+      if (fn != fnToRemove)
+        return fn
+    })
+  }
+
+  fire = () => {
+    this.observers.forEach(fn => {
+      fn.call()
+    })
+  }
+}
+
+const subject = new Subject()
+
+function Observer1() {
+  console.log("Observer 1 Firing!")
+}
+
+function Observer2() {
+  console.log("Observer 2 Firing!")
+}
+
+subject.subscribe(Observer1)
+subject.subscribe(Observer2)
+subject.fire()
+
+subject.unsubscribe(Observer2)
+subject.fire()`,
+    output: `'Observer 1 Firing!'
+'Observer 2 Firing!'
+
+
+'Observer 1 Firing!'`,
+    example: 'We have different observers that they want to subscribe to a subject. We are going to implement a Subject object with a subscribre/unsubscribe/fire methods to manage its observers.'
   },
   {
     name: 'Proxy Pattern 🪪',
-    description: 'The Proxy pattern is a structural design pattern that provides a surrogate or placeholder object to control access to another object.'
+    description: 'The Proxy pattern is a structural design pattern that provides a surrogate or placeholder object to control access to another object.',
+    code: `// External API Service
+function CryptocurrencyAPI() {
+  this.getValue = (coin) => {
+    console.log('Calling External API...')
+    
+    switch(coin) {
+      case 'Bitcoin':
+        return '$3,500'
+      case 'Litecoin':
+        return '$50'
+      case 'Ethereum':
+        return '$175'
+    }
+  }
+}
+
+// Proxy
+function CryptocurrencyProxy() {
+  this.api = new CryptocurrencyAPI()
+  this.cache = {}
+  
+  this.getValue = (coin) => {
+    if (!this.cache.hasOwnProperty(coin)) {
+      this.cache[coin] = this.api.getValue(coin)
+    }
+    
+    return this.cache[coin]
+  }
+}
+
+const proxy = new CryptocurrencyProxy()
+
+// These ones will request the data to the API
+console.log(proxy.getValue('Bitcoin'))
+console.log(proxy.getValue('Litecoin'))
+console.log(proxy.getValue('Ethereum'))
+
+// These ones will retrieve the data from the cache
+console.log(proxy.getValue('Bitcoin'))
+console.log(proxy.getValue('Litecoin'))
+console.log(proxy.getValue('Ethereum'))`,
+    output: `'Calling External API...'
+'Calling External API...'
+'Calling External API...'
+
+'$3,500'
+'$50'
+'$175'
+
+'$3,500'
+'$50'
+'$175'`,
+    example: 'We are going to implement a Proxy pattern making the API requests by us, and it will implement a cache just to avoid extra API requests saving performace.'
   },
   {
     name: 'Mediator Pattern 👩🏻‍⚖️',
