@@ -44,7 +44,35 @@ employees.forEach(emp => sayHello.call(emp))`,
   },
   {
     name: 'Singleton Pattern 👨‍👧',
-    description: 'The Singleton pattern is a creational design pattern that restricts the instantiation of a class to one object. This is useful when exactly one object is needed to coordinate actions across the system. It allows the reader to make use of global state without the use of global variables.'
+    description: 'The Singleton pattern is a creational design pattern that restricts the instantiation of a class to one object. This is useful when exactly one object is needed to coordinate actions across the system. It allows the reader to make use of global state without the use of global variables.',
+    code: `const Singleton = (function() {
+  function ProcessManager() {
+      this.numProcess = 0
+  }
+
+  let pManager
+
+  function createProcessManager() {
+      pManager = new ProcessManager()
+      return pManager
+  }
+
+  return {
+      getProcessManager: () => {
+          if (!pManager)
+              pManager = createProcessManager()
+          return pManager
+      }
+  }
+})()
+
+const processManager = Singleton.getProcessManager()
+const processManager2 = Singleton.getProcessManager()
+
+// Check if there is the same instance
+console.log(processManager === processManager2)`,
+    output: 'true',
+    example: 'In this scenario we have to manage process, and we have to create an object called ProcessManager to manage those process. We need to be sure that we have just one instance of this ProcessManager.'
   },
   {
     name: 'Strategy Pattern ♟️',
