@@ -2,32 +2,31 @@ export const patterns = [
   {
     name: 'Factory Pattern 🏭',
     description: 'The factory pattern is a software design pattern that allows users to create objects without specifying their exact class. It provides a layer of abstraction between a program\'s object creation and usage, allowing the user to employ different implementations of a given interface or abstract class as long as each implementation follows the same rules. This pattern can be used for data access and business process layers, as well as for more complex scenarios such as artificial intelligence.',
-    code: `
-function Developer(name) {
-    this.name = name
-    this.type = 'Developer'
+    code: `function Developer(name) {
+  this.name = name
+  this.type = 'Developer'
 }
 
 function Tester(name) {
-    this.name = name
-    this.type = 'Tester'
+  this.name = name
+  this.type = 'Tester'
 }
 
 function EmployeeFactory() {
-    this.create = (name, type) => {
+  this.create = (name, type) => {
     switch(type) {
-        case DEVELOPER:
-            return new Developer(name)
-            break
-        case TESTER:
-            return new Tester(name)
-            break
-        }
+      case DEVELOPER:
+          return new Developer(name)
+          break
+      case TESTER:
+          return new Tester(name)
+          break
     }
+  }
 }
 
 function sayHello() {
-    console.log('Hi, I am ' + this.name + ' and I am a ' + this.type})
+  console.log('Hi, I am ' + this.name + ' and I am a ' + this.type})
 }
 
 const DEVELOPER = 1
@@ -39,10 +38,8 @@ employees.push(employeeFactory.create('Ivan', DEVELOPER))
 employees.push(employeeFactory.create('Frank', TESTER))
 
 employees.forEach(emp => sayHello.call(emp))`,
-    output: `
-'Hi, I am Ivan and I am a Developer'
-'Hi, I am Frank and I am a Tester'
-    `,
+    output: `'Hi, I am Ivan and I am a Developer'
+'Hi, I am Frank and I am a Tester'`,
     example: 'We need to create different roles in our company, that\'s a perfect way to implement a Factory pattern. In our company we have different roles of employees for example Developers and Testers, let\'s create our example.'
   },
   {

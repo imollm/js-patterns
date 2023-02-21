@@ -18,8 +18,10 @@ export default function Pattern () {
         </h1>
         <PatternParagraph title='Description:' text={pattern.description} />
         <PatternParagraph title='Example:' text={pattern.example} />
-        <CodeSnippet code={pattern.code} />
-        <CodeOutput output={pattern.output} />
+        <div className='flex flex-col items-start gap-4 ml:flex-row'>
+          <CodeSnippet code={pattern.code} />
+          <CodeOutput output={pattern.output} />
+        </div>
       </section>
     )
   }

@@ -25,6 +25,10 @@ module.exports = {
           to: { transform: 'scale(1.1)' }
         }
       }
+    },
+    screens: {
+      // Mid large
+      ml: '1170px'
     }
   },
   plugins: []
