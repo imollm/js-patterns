@@ -3,7 +3,7 @@ import CodeSectionHeader from './CodeSnippetHeader'
 
 export default function CodeOutput ({ output }) {
   return (
-    <div className='code-output w-full ml:max-w-fit'>
+    <div className='code-output w-full ml:w-64 ml:min-w-min'>
       <h2 className='text-2xl mb-6 mt-6 ml:mt-0'>
         Output
       </h2>
