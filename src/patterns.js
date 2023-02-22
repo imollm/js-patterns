@@ -139,17 +139,15 @@ console.log('USPS: ' + shipping.calculate(package))`,
   () => { return 'I\'m a function' }
 ]
 
-class Iterator {
-  constructor(items) {
-    this.items = items
-    this.index = 0
-  }
+function Iterator(items) {
+  this.items = items
+  this.index = 0
   
-  hasNext = () => {
+  this.hasNext = () => {
     return this.index < this.items.length
   }
   
-  next = () => {
+  this.next = () => {
     return this.items[this.index++]
   }
 }
@@ -274,10 +272,84 @@ console.log(proxy.getValue('Ethereum'))`,
   },
   {
     name: 'Mediator Pattern 👩🏻‍⚖️',
-    description: 'The mediator pattern is a software design pattern which defines an object that encapsulates how a set of objects interact. This pattern is used to promote loose coupling by keeping objects from referring to each other explicitly, and it enables the loosely coupled objects to cooperate when necessary. It also allows for the encapsulation of complex communication or logic between objects in one place.'
+    description: 'The mediator pattern is a software design pattern which defines an object that encapsulates how a set of objects interact. This pattern is used to promote loose coupling by keeping objects from referring to each other explicitly, and it enables the loosely coupled objects to cooperate when necessary. It also allows for the encapsulation of complex communication or logic between objects in one place.',
+    code: `function Member(name) {
+  this.name = name
+  this.chatRoom = null
+  
+  this.send = (message, toMember) => {
+    this.chatRoom.send(message, this, toMember)
+  }
+  
+  this.receive = (message, fromMember) => {
+    console.log(fromMember.name + ' to ' + this.name + ': ' + message)
+  }
+}
+
+function ChatRoom() {
+  this.members = {} 
+  
+  this.addMember = (member) => {
+    this.members[member.name] = member
+    member.chatRoom = this
+  }
+  
+  this.send = (message, fromMember, toMember) => {
+    toMember.receive(message, fromMember)
+  }
+}
+
+const chat = new ChatRoom()
+const bob = new Member('Bob')
+const john = new Member('John')
+const ivan = new Member('Ivan')
+
+chat.addMember(bob)
+chat.addMember(john)
+chat.addMember(ivan)
+
+bob.send('Hey John!', john)
+john.send('Whats up, Bob!', bob)
+ivan.send('John, are you ok?', john)
+ivan.send('Bob, do you work with VSCode or IntelliJ?', bob)`,
+    output: `'Bob to John: Hey John!'
+'John to Bob: Whats up, Bob!'
+'Ivan to John: John, are you ok?'
+'Ivan to Bob: Bob, do you work with VSCode or IntelliJ?'`,
+    example: 'We are going to implement a chat room with members, these members will talk between each others, but nobody will talk directly with another one, the chat will be a middleware between members.'
   },
   {
     name: 'Visitor Pattern 🧳',
-    description: 'The Visitor Pattern allows for adding new operations to a group of classes without modifying the classes themselves. It uses an external class, known as the Visitor, that stores all of the implementations of the operations. The Visitor can then be passed to each object in the group and, by using polymorphism, call each object\'s implementation of the Visitor\'s operation.'
+    description: 'The Visitor Pattern allows for adding new operations to a group of classes without modifying the classes themselves. It uses an external class, known as the Visitor, that stores all of the implementations of the operations. The Visitor can then be passed to each object in the group and, by using polymorphism, call each object\'s implementation of the Visitor\'s operation.',
+    code: `function Employee(name, salary) {
+  this.name = name
+  this.salary = salary
+
+  this.getSalary = () => {
+    return this.salary
+  }
+
+  this.setSalary = (salary) => {
+    this.salary = salary
+  }
+
+  this.accept = (visitorFn) => {
+    visitorFn(this)
+  }
+}
+
+const ivanDev = new Employee('Ivan', 10000)
+console.log(ivanDev.getSalary())
+
+// Visitor function, extending the functionality
+function ExtraSalary(emp) {
+  emp.setSalary(emp.getSalary() * 2)
+}
+
+ivanDev.accept(ExtraSalary)
+console.log(ivanDev.getSalary())`,
+    output: `10000
+20000`,
+    example: 'We are going to create an Employee class and use the Visitor pattern to extend the funcionality of this class, adding a new function that will increment twice the salary.'
   }
 ]
